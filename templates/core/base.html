@@ -12,6 +12,12 @@
     <title>{% block title %}oi{% endblock %}</title>
   </head>
   <body>
+
+    {% block header %}
+    
+    {% include 'core/header.html' %}
+
+    {% endblock %}
     {% block content %}
 
     {% endblock %}
