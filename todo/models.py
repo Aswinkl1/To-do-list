@@ -12,9 +12,11 @@ class category(models.Model):
         return self.name
     
 
-
+    
 class Task(models.Model):
     category = models.ForeignKey(category,on_delete = models.CASCADE)
     description = models.CharField(max_length = 250)
     date = models.DateField(default = date.today)
     time = models.TimeField(null = True,blank = True,)
+    
+

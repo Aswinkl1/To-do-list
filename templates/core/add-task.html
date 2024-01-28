@@ -1,0 +1,83 @@
+{% comment %} <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#exampleModal" data-whatever="@mdo">Add task </button> {% endcomment %}
+
+<div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+  <div class="modal-dialog modal-dialog-centered" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="exampleModalLabel">New Task</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        <form method="post" action="{% url 'core:add-task' %}">
+            {% csrf_token %}
+          <div class="form-group">
+            <label for="{{task.category.id_for_label}}" class="col-form-label">Category</label>
+            {% comment %} <input type="text" class="form-control" id="recipient-name"> {% endcomment %}
+            <select class="form-select w-100 px-2 py-2" aria-label="Default select example" name="{{task.category.name}}" id="{{task.category.id_for_label}}">
+                 <option selected>Open this select menu</option>
+                {% comment %} {% for category in task.category  %}
+                <option value="{{category}}">{{category}}</option>
+                {% endfor %}  {% endcomment %}
+                {% for value, label in task.category.field.choices %}
+                <option value="{{ value }}" {% if value == task.category.value %}selected{% endif %}>{{ label }}</option>
+              {% endfor %}
+                
+            </select>
+          </div>
+          <div class="form-group">
+            <label for="{{task.description.id_for_label}}-text" class="col-form-label">Task</label>
+            <textarea class="form-control" id="{{task.description.id_for_label}}" name="{{task.description.name}}"></textarea>
+          </div>
+          <div class="form-group">
+            <label for="message-text" class="col-form-label d-block">Date:</label>
+            <input type="date" name="{{task.date.name}}" id="{{task.date.id_for_label}}" >
+          </div>
+          <div class="form-group">
+            <label for="message-text" class="col-form-label d-block">Time:</label>
+            <input type="time" name="{{task.time.name}}" id="{{task.date.id_for_label}} " step="2" >
+          </div>
+          {% if task.errors %}
+          <p>{{task.errors}}</p>
+          {% endif %}
+          
+         
+          
+          
+
+
+          
+        
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+        <button type="submit" class="btn btn-primary">Send message</button>
+      </div>
+    </form>
+    </div>
+  </div>
+</div>
+
+<script>
+    $('#exampleModal').on('show.bs.modal', function (event) {
+        var button = $(event.relatedTarget) // Button that triggered the modal
+        //var recipient = button.data('whatever')//Extract info from data-* attributes
+        // If necessary, you could initiate an AJAX request here (and then do the updating in a callback).
+        // Update the modal's content. We'll use jQuery here, but you could use a data binding library or other methods instead.
+        //var modal = $(this)
+
+        //modal.find('.modal-title').text('New message to ' + recipient)
+        //modal.find('.modal-body input').val(recipient)
+        $(document).ready(function () {
+          $('#id_date').datepicker();
+          $('.timepicker').timepicker();
+      });
+        $(document).ready(function () {
+          $('#id_date').datepicker();
+          $('.timepicker').timepicker();
+      });
+      })
+      
+</script>
+

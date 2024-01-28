@@ -9,12 +9,12 @@
         <div class="mx-auto shadow-lg p-5" style="width: 430px; margin-top: 90px;">
             <form class="" method="post">
                 {% csrf_token %}
-                <h3 class="text-center ">Signup</h3>
+                <h3 class="text-center ">Sign Up</h3>
                 <div class="form-group">
-                  <label for="{{form.username.id_for_label}}" class="mt-3">Username</label>
-                  <input type="text" name="{{form.username.name}}" class="form-control" id="{{form.username.id_for_label}}" aria-describedby="emailHelp" placeholder="Enter Username">
+                  <label for="{{form.username.id_for_label}}" class="mt-3">Name</label>
+                  <input type="text" name="{{form.username.name}}" class="form-control" id="{{form.username.id_for_label}}" aria-describedby="emailHelp" placeholder="Enter Name">
                   {% if form.errors %}
-                  <small id="" class="form-text text-muted">{{form.username.errors}}</small>
+                    <small id="" class="form-text text-muted">{{form.username.errors}}</small>
                   {% endif %}
                 </div>
                 <div class="form-group">
@@ -32,7 +32,7 @@
                   {% endif %}
                 </div>
                 <div class="form-group">
-                  <label for="{{form.password2.id_for_label}}">RE Password</label>
+                  <label for="{{form.password2.id_for_label}}">Re Password</label>
                   <input type="password" class="form-control" name="{{form.password2.name}}" id="{{form.password2.id_for_label}}" placeholder="RE enter your password">
                   {% if form.errors %}
                     <small id="" class="form-text text-muted">{{form.password2.errors}}</small>
