@@ -19,3 +19,10 @@ class addTask(forms.ModelForm):
         # Set the default category for the form
             self.fields['category'].initial = default_category_id
 
+class addCategory(forms.ModelForm):
+    class Meta:
+        model = category
+        fields = ['name']
+
+
+

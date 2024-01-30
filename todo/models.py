@@ -10,8 +10,7 @@ class category(models.Model):
 
     def __str__(self):
         return self.name
-    
-
+  
     
 class Task(models.Model):
     category = models.ForeignKey(category,on_delete = models.CASCADE)

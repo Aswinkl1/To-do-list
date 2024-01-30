@@ -1,0 +1,56 @@
+{% extends 'core/base.html' %}
+
+{% block header%}
+{%include 'core/header.html' %}
+
+{% endblock %}
+
+{%block content%}
+
+<div class="container text-center mt-3">
+    <div class="root w-50 mx-auto ">
+        {% if messages%}
+        {% for message in messages%}
+          <div class="alert {{ message.tags }} alert-dismissible fade show" role="alert">
+          
+            {{ message | safe }}
+            <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+              <span aria-hidden="true">&times;</span>
+            </button>
+          </div>
+        {% endfor %}
+
+      {% endif %}
+        <span class="text-center h2 mt-5">Categories</span>
+        
+            
+            
+        <a href="" class="btn btn-success ml-5"  data-toggle="modal" data-target="#exampleModal1"> add category</a>
+        
+        <table class="table table-striped text-center mt-3">
+            <tbody>
+
+                {%for category in categories%}
+                    <tr class=" rounded"> 
+                        <td>{{category.name}}</td>
+                        {% comment %} href="{% url 'core:edit_category' pk=category.id%}" {% endcomment %}
+                        <td class="d-flex justify-content-end"><a data-name="{{ category.name }}" data-toggle="modal" data-target="#exampleModal2" data-pk="{{ category.pk }}" class="btn btn-success mr-3 px-4">Edit</a>
+                            {% comment %} <a href="#" class="btn btn-success mr-3 px-4" data-toggle="modal" data-target="#exampleModal2" data-name="{{ category.name }}" data-pk="{{ category.pk }}">Edit</a> {% endcomment %}
+
+                            <a href="{% url 'core:delete-category' pk=category.pk %}" class="btn btn-danger px-4">Delete</a></td>
+
+
+                    </tr>
+                    
+                    {% endfor %}
+               
+                
+            </tbody>
+        </table>
+        
+    </div>
+    </div>
+
+    {% include 'core/add_category.html' %}
+    {% include 'core/edit_category.html' %}
+        {% endblock %}
