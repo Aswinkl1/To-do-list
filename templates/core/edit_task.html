@@ -1,0 +1,158 @@
+{% comment %} <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#exampleModal" data-whatever="@mdo">Add task </button> {% endcomment %}
+
+<div class="modal fade" id="editTask" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered" role="document">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title" id="exampleModalLabel">New Task</h5>
+          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+          </button>
+        </div>
+        <div class="modal-body">
+          <form method="post" action="{% url 'core:edit-task' %}">
+              {% csrf_token %}
+            <div class="form-group">
+              <label for="{{task.category.id_for_label}}" class="col-form-label">Category</label>
+              
+              <select class="form-select w-100 px-2 py-2 category" aria-label="Default select example" name="{{task.category.name}}" id="{{task.category.id_for_label}}">
+                   {% comment %} <option >Open this select menu</option> {% endcomment %}
+                  {% for value, label in task.category.field.choices %}
+                  <option value="{{ value }}" {% if value == task.category.value %}selected{% endif %}>{{ label }}</option>
+                {% endfor %}
+              </select>
+            </div>
+            <div class="form-group">
+              <label for="{{task.description.id_for_label}}-text" class="col-form-label">Task</label>
+              <textarea class="form-control description" id="{{task.description.id_for_label}}" name="{{task.description.name}}"></textarea>
+            </div>
+            <div class="form-group">
+              <label for="message-text" class="col-form-label d-block">Date:</label>
+              <input type="date" name="{{task.date.name}}" id="{{task.date.id_for_label}}" class="date">
+            </div>
+            <div class="form-group">
+              <label for="message-text" class="col-form-label d-block">Time:</label>
+              <input type="time" name="{{task.time.name}}" id="{{task.date.id_for_label}} " class="time" step="2" >
+            </div>
+
+            <input type="hidden"  class="pk" name="pk">
+            {% if task.errors %}
+            <p>{{task.errors}}</p>
+            {% endif %}
+            
+           
+            
+            
+  
+  
+            
+          
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+          <button type="submit" class="btn btn-primary">Send message</button>
+        </div>
+      </form>
+      </div>
+    </div>
+  </div>
+  
+  <script>
+      $('#editTask').on('show.bs.modal', function (event) {
+          var button = $(event.relatedTarget) // Button that triggered the modal
+          //var recipient = button.data('whatever')//Extract info from data-* attributes
+          // If necessary, you could initiate an AJAX request here (and then do the updating in a callback).
+          // Update the modal's content. We'll use jQuery here, but you could use a data binding library or other methods instead.
+          var modal = $(this)
+  
+          //modal.find('.modal-title').text('New message to ' + recipient)
+          //modal.find('.modal-body input').val(recipient)
+          var description = button.data('description')
+          var category = button.data('category')
+          var date = button.data('date')
+          var time = button.data('time')
+          var pk = button.data('pk')
+          var date = new Date(date)
+
+          if (isNaN(date.getTime())) {
+            console.log("Invalid date format");}
+          else{
+        
+          var date = date.getFullYear() + '-' +
+          ('0' + (date.getMonth() + 1)).slice(-2) + '-' +
+          ('0' + date.getDate()).slice(-2);
+          }
+
+          modal.find('.description').val(description)
+          modal.find('.pk').val(pk)
+          //modal.find('.category').
+          
+         // console.log(date.toLocaleDateString('en-GB')); 
+          modal.find('.date').val(date)
+          //
+          function convertTimeToHHMMSS(timeString) {
+            // Extract hours, minutes, and period (am/pm) from the time string
+            var match = timeString.match(/(\d+):(\d+) (\w+)/);
+        
+            if (!match) {
+                // Handle invalid time format
+                console.error("Invalid time format:", timeString);
+                return null;
+            }
+        
+            var hours = parseInt(match[1]);
+            var minutes = parseInt(match[2]);
+            var period = match[3].toLowerCase();
+        
+            // Adjust hours for the "p.m." period
+            if (period === "p" && hours !== 12) {
+                hours += 12;
+            } else if (period === "a" && hours === 12) {
+                hours = 0;
+            }
+        
+            // Create a new Date object with the adjusted time
+            var parsedTime = new Date(2000, 0, 1, hours, minutes);
+        
+            // Format the time as hh:mm:ss
+            var formattedTime = ("0" + parsedTime.getHours()).slice(-2) +
+                                ":" + ("0" + parsedTime.getMinutes()).slice(-2) +
+                                ":" + ("0" + parsedTime.getSeconds()).slice(-2);
+        
+            return formattedTime;
+        }
+        
+        // Example usage
+        
+        var formattedTime = convertTimeToHHMMSS(time);
+        
+        if (formattedTime !== null) {
+            console.log(formattedTime);
+        } else {
+            console.error("Conversion failed.");
+        }
+        
+          
+        modal.find('.time').val(formattedTime)
+
+
+       // select the category
+       
+
+       const changeSelected = (e) => {
+        const text = category;
+        const $select = document.querySelector('.category');
+        const $options = Array.from($select.options);
+        const optionToSelect = $options.find(item => item.text ===text);
+      
+        // Here's the trick:
+        $select.value = optionToSelect.value;
+        console.log("hi")
+      };
+      changeSelected()
+
+
+      
+        })
+        
+  </script>

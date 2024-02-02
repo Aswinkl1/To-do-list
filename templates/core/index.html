@@ -9,7 +9,38 @@
  {% endblock %}
 
  {% block content %}
- 
+ <div class="container">
+    <div class="root ">
+        {% include 'message.html' %}
+        {% for task in main_task %}
+            <div class="row  w-75 mx-auto">
+                <div class="col">
+                        <a href="" class="btn w-100 h-100"
+                        data-description="{{task.description}}"
+                        data-date="{{task.date}}"
+                        data-category = "{{task.category}}"
+                        data-time="{{task.time}}"
+                        data-toggle="modal"
+                        data-target="#editTask"
+                        data-pk = {{task.pk}}
+                        >
+                        <span class="h4">{{task.description}}</span><br>
+                        <small>{{task.date}}</small> <small>{{task.time}}</small><br>
+                        <small class="">{{task.category}}</small>
+                        </a>
+
+                        
+                    </div>
+                
+                <div class="col">
+                    <a href="" class="btn btn-success">Finish</a>
+                    <a href="{% url 'core:delete-task' pk=task.id%}" class="btn btn-success">Delete</a>
+                </div>
+            </div>
+        {% endfor %}
+    </div>
+ </div>
 
  {% include 'core/add-task.html'%}
+ {% include 'core/edit_task.html'%}
  {% endblock %}
