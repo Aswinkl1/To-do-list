@@ -2,6 +2,8 @@ from django.shortcuts import render,redirect
 from .forms import signUpForm,loginForm
 from django.contrib.auth import login as auth_login,authenticate,logout
 
+from django.contrib.auth.forms import PasswordChangeForm
+
 # email verification 
 from django.http import HttpResponse
 from django.shortcuts import render, redirect
@@ -38,8 +40,8 @@ def signUp(request):
                         mail_subject, message, to=[to_email]
             )
             email.send()
-            messages.success(request,"Please confirm your email address to complete the registration") 
-            return redirect('user:login')
+            messages.success(request,"Please confirm your email address to complete the registration")
+            return redirect('user:login1')
     else:
         form = signUpForm()
     return render(request, 'user/signup.html', {'form': form})
@@ -58,9 +60,10 @@ def activate(request, uidb64, token):
         # login(request, user)
         # return redirect('home')
         messages.success(request,"Thank you for your email confirmation. Now you can login your account.")
-        return redirect("user:login")
+        return redirect("user:login1")
     else:
         return HttpResponse('Activation link is invalid!')
+
 
 # def signUp(request):
 #     if request.POST:
@@ -74,6 +77,8 @@ def activate(request, uidb64, token):
 #     return render(request,'user/signup.html',{'form':form})
 
 def login(request):
+    form = loginForm(request.POST or None)
+    errors = None
     if request.POST:
         user_name = request.POST.get('username')
         password = request.POST.get('password')
@@ -81,9 +86,11 @@ def login(request):
         if user:
             auth_login(request,user)
             return redirect('/')
-    else:
-        form = loginForm()
-    return render(request,'user/login.html',{'form':form})
+        else:
+            errors = "invalid cridentials"
+
+    return render(request,'user/login.html',{'form':form,'errors':errors})
+
 
 def user_logout(request):
     """
@@ -91,4 +98,8 @@ def user_logout(request):
     """
     logout(request)
     messages.info(request, "Logged out successfully!")
-    return redirect("user:login")
+    return redirect("user:login1")
+
+def password_change(request):
+    form = PasswordChangeForm(request.user)
+    return render(request,'core/password_reset.html',{'form':form})

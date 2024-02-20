@@ -1,3 +1,43 @@
+<style>
+
+    .dropbtn {
+      
+      
+      padding: 16px;
+      font-size: 16px;
+      border: none;
+      cursor: pointer;
+    }
+    
+    .dropdown {
+      position: relative;
+      display: inline-block;
+    }
+    
+    .dropdown-content {
+      display: none;
+      position: absolute;
+      background-color: #f9f9f9;
+      min-width: 160px;
+      box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
+      z-index: 1;
+    }
+    
+    .dropdown-content a {
+      color: black;
+      padding: 12px 16px;
+      text-decoration: none;
+      display: block;
+    }
+    
+    .dropdown-content a:hover {background-color: #f1f1f1}
+    
+    .dropdown:hover .dropdown-content {
+      display: block;
+    }
+
+</style>
+
 <div class="container-fluid ">
 <nav class="navbar navbar-expand-lg navbar-light bg-light">
     <a class="navbar-brand" href="/">Todo</a>
@@ -19,17 +59,17 @@
       
         <ul class="d-block mr-5" style="list-style: none;">
         <li class="nav-item dropdown">
-          <a class="nav-link dropdown-toggle"  id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-          {% comment %} Account {% endcomment %}
-          {% if request.user.is_authenticated %}{{user.username}}{% endif %}
-          </a>
-          <div class="dropdown-menu" aria-labelledby="navbarDropdown">
-            <a class="dropdown-item" href="#">Action</a>
-            <a class="dropdown-item" href="#">Another action</a>
-            <div class="dropdown-divider"></div>
-            <a class="dropdown-item" href="{%  url 'user:logout' %}">logout</a>
+          
+          <div class="dropdown">
+            <button class="dropbtn">{% if request.user.is_authenticated %} {{user.username}} {% endif %}</button>
+            <div class="dropdown-content">
+            <a href="{% url 'password_change'%}">password change</a>
+            <a href="#">Link 2</a>
+            <a href="{%  url 'user:logout1' %}">logout</a>
+            </div>
           </div>
         </li>
+
       </ul>
       
     </div>

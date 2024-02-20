@@ -2,8 +2,10 @@ from django.shortcuts import render,HttpResponse,redirect,get_object_or_404
 from .models import category,Task
 from . forms import addTask,addCategory
 from django.contrib import messages
+from django.contrib.auth.decorators import login_required
 # Create your views here.
 
+@login_required(login_url='user:login1')
 def home(request):
     task = addTask()
 
@@ -15,6 +17,7 @@ def delete_task(request,pk):
     Task.objects.get(pk=pk).delete()
     messages.success(request,"Task deleted successfully ")
     return redirect('/')
+
 
 
 def add_Task(request):

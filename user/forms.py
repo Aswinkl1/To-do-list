@@ -1,5 +1,6 @@
 from django.contrib.auth.forms import UserCreationForm,AuthenticationForm
 from django.contrib.auth.models import User
+from django.contrib.auth import authenticate
 from django import forms
 class signUpForm(UserCreationForm):
     class Meta:
@@ -9,5 +10,4 @@ class signUpForm(UserCreationForm):
 class loginForm(AuthenticationForm):
     username = forms.CharField()
     password  = forms.PasswordInput()
-    
     
